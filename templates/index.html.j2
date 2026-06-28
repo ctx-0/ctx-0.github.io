@@ -342,7 +342,7 @@
 
       .context-section {
         display: grid;
-        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
         gap: 50px;
         margin-top: 0;
         align-items: start;
@@ -468,12 +468,13 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
+        margin: 2rem;
       }
       .quote-item,
       .quote-empty {
         max-width: 34ch;
         font-family: var(--quote-font);
-        font-size: 19px;
+        font-size: 16px;
         font-weight: 300;
         line-height: 1.45;
         color: var(--ink2);
@@ -485,7 +486,7 @@
         display: block;
         margin-top: 6px;
         font-family: var(--quote-font);
-        font-size: 11px;
+        font-size: 14px;
         font-weight: 400;
         line-height: 1.45;
         color: var(--ink3);
@@ -823,6 +824,8 @@
         .footer-meta {
           justify-self: start;
         }
+        .quote-list{
+          margin:0;
       }
 
       @media (prefers-reduced-motion: reduce) {
