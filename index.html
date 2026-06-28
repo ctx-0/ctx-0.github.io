@@ -775,6 +775,7 @@
         .hero {
           min-height: auto;
           display: block;
+          margin-top: 34px;
         }
         .hero::before {
           width: calc(100vw + 48px);
@@ -1015,12 +1016,6 @@
           <a class="read-row" href="https://x.com/polynoamial/status/2064210146558136827" target="_blank" rel="noopener">
             <span class="read-title">Implications of Large-Scale Test-Time Compute | Noam Brown</span>
           </a>
-          <a class="read-row" href="https://gwern.net/on-really-trying" target="_blank" rel="noopener">
-            <span class="read-title">On Really Trying · Gwern.net</span>
-          </a>
-          <a class="read-row" href="https://www.lesswrong.com/posts/eFD3rozNCZKMe4rTs/mats-9-retrospective-and-advice" target="_blank" rel="noopener">
-            <span class="read-title">MATS 9 Retrospective & Advice</span>
-          </a>
           <a class="read-row" href="https://ysymyth.github.io/The-Second-Half/" target="_blank" rel="noopener">
             <span class="read-title">The Second Half – Shunyu Yao – 姚顺雨</span>
           </a>
@@ -1030,8 +1025,14 @@
           <a class="read-row" href="https://vintagedata.org/blog/posts/what-is-mid-training" target="_blank" rel="noopener">
             <span class="read-title">What's the deal with mid-training? | Vintage Data</span>
           </a>
-          <a class="read-row mobile-reading-extra" href="https://outsidetext.substack.com/p/how-does-a-blind-model-see-the-earth" target="_blank" rel="noopener">
+          <a class="read-row" href="https://outsidetext.substack.com/p/how-does-a-blind-model-see-the-earth" target="_blank" rel="noopener">
             <span class="read-title">How Does A Blind Model See The Earth? - by henry</span>
+          </a>
+          <a class="read-row" href="https://gwern.net/on-really-trying" target="_blank" rel="noopener">
+            <span class="read-title">On Really Trying · Gwern.net</span>
+          </a>
+          <a class="read-row mobile-reading-extra" href="https://www.lesswrong.com/posts/eFD3rozNCZKMe4rTs/mats-9-retrospective-and-advice" target="_blank" rel="noopener">
+            <span class="read-title">MATS 9 Retrospective & Advice</span>
           </a>
         </div>
         <button class="reading-toggle" type="button" aria-expanded="false">show full reading list</button>
@@ -1291,6 +1292,7 @@
       }
 
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const mobileTopographicPointer = window.matchMedia("(max-width: 760px)");
 
       // ── topographic background shader ──
       const topographicCanvas = document.getElementById("topographic-bg");
@@ -1392,8 +1394,16 @@
         topographicState.gl.uniform2f(topographicState.uniforms.resolution, width, height);
       }
 
+      function syncMobileTopographicPointer() {
+        if (!mobileTopographicPointer.matches) return;
+        topographicPointer.x = innerWidth - 72;
+        topographicPointer.y = 92;
+        topographicPointer.active = 1;
+      }
+
       function drawTopographic(now) {
         if (!topographicEnabled || !topographicState) return;
+        syncMobileTopographicPointer();
         const gl = topographicState.gl;
         resizeTopographic();
         gl.useProgram(topographicState.program);
@@ -1491,15 +1501,20 @@
         });
       }
       applyBackgroundAnimation(topographicEnabled, { persist: false });
-      window.addEventListener("resize", () => drawTopographic(performance.now()));
+      window.addEventListener("resize", () => {
+        syncMobileTopographicPointer();
+        drawTopographic(performance.now());
+      });
       window.addEventListener("scroll", () => drawTopographic(performance.now()), { passive: true });
       window.addEventListener("pointermove", (event) => {
+        if (mobileTopographicPointer.matches) return;
         topographicPointer.x = event.clientX;
         topographicPointer.y = event.clientY;
         topographicPointer.active = event.pointerType === "touch" ? 0 : 1;
         drawTopographic(performance.now());
       }, { passive: true });
       window.addEventListener("pointerleave", () => {
+        if (mobileTopographicPointer.matches) return;
         topographicPointer.active = 0;
         drawTopographic(performance.now());
       });

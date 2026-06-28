@@ -1,9 +1,7 @@
 from __future__ import annotations
 
 import argparse
-import calendar
-from collections import defaultdict
-from datetime import date, datetime
+from datetime import date
 from pathlib import Path
 
 import yaml
@@ -12,55 +10,11 @@ from jinja2 import Environment, FileSystemLoader, StrictUndefined, select_autoes
 
 ROOT = Path(__file__).parent
 DATA_DIR = ROOT / "data"
-PERIODS = ("favourites", "recent", "last month", "some time ago")
 
 
 def load_yaml(name: str):
     with (DATA_DIR / name).open(encoding="utf-8") as file:
         return yaml.safe_load(file)
-
-
-def parse_read_date(value: str | date) -> date:
-    if isinstance(value, date):
-        return value
-
-    value = str(value)
-    if len(value) == 7:
-        year, month = map(int, value.split("-"))
-        return date(year, month, calendar.monthrange(year, month)[1])
-
-    return datetime.strptime(value, "%Y-%m-%d").date()
-
-
-def group_reading(entries: list[dict], today: date) -> list[dict]:
-    grouped = defaultdict(list)
-
-    for entry in entries:
-        item = dict(entry)
-        item["_read_date"] = parse_read_date(item["read_date"])
-        age = (today - item["_read_date"]).days
-
-        if age < 0:
-            raise ValueError(f"read_date cannot be in the future: {item['read_date']}")
-        if age <= 7:
-            period = "recent"
-        elif age <= 31:
-            period = "last month"
-        else:
-            period = "some time ago"
-
-        grouped[period].append(item)
-        if item.get("favorite"):
-            grouped["favourites"].append(item)
-
-    for items in grouped.values():
-        items.sort(key=lambda item: item["_read_date"], reverse=True)
-
-    return [
-        {"label": period, "entries": grouped[period]}
-        for period in PERIODS
-        if grouped[period]
-    ]
 
 
 def build(today: date) -> None:
@@ -75,7 +29,7 @@ def build(today: date) -> None:
     reading_data = load_yaml("reading.yaml")
     html = template.render(
         site=load_yaml("site.yaml"),
-        reading_groups=group_reading(reading_data["entries"], today),
+        reading_entries=reading_data["entries"],
         projects=load_yaml("projects.yaml"),
         current_work=load_yaml("current_work.yaml"),
         quotes=load_yaml("quotes.yaml") or [],
