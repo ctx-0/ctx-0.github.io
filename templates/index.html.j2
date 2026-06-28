@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>re:ctx</title>
+    <title>{{ site.name }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -861,7 +861,7 @@
 
     <!-- NAV -->
     <nav>
-      <a class="nav-name" href="#">re:ctx</a>
+      <a class="nav-name" href="#">{{ site.name }}</a>
       <div class="nav-links">
         <a href="https://ctx-0.github.io/notes/">notes</a>
         <button class="theme-open" type="button" aria-haspopup="dialog" aria-label="Choose theme">
@@ -948,55 +948,68 @@
       <section class="top-section" aria-label="Hero and work">
         <!-- HERO -->
         <div class="hero">
-          <p class="hero-name rise r1 diffuse-text" data-diffuse data-diffuse-delay="120">re:ctx</p>
+          <p class="hero-name rise r1 diffuse-text" data-diffuse data-diffuse-delay="120">{{ site.name }}</p>
           <p class="hero-bio rise r2 diffuse-text" data-diffuse data-diffuse-delay="360">
-            Building tools and running gpu poor experiments. Learning about LLM pre-training and post-training. Interested in alternative architectures.
+            {{ site.bio }}
           </p>
           <div class="hero-contact rise r3">
-            <a href="#writing">writing</a>
-            <a href="https://github.com/ctx-0" target="_blank" rel="noopener">github</a>
-            <a href="https://huggingface.co/rectx" target="_blank" rel="noopener">huggingface</a>
+            {% if site.email is defined and site.email %}
+            <a href="mailto:{{ site.email }}">{{ site.email }}</a>
+            {% endif %}
+            {% for link in site.links %}
+            <a href="{{ link.url }}"{% if link.url.startswith("http") %} target="_blank" rel="noopener"{% endif %}>{{ link.label }}</a>
+            {% endfor %}
           </div>
         </div>
 
         <section id="work" class="work-content reveal">
+          {% if current_work %}
           <div class="work-block">
             <p class="work-label">currently working on</p>
             <ul class="current-list">
-              <li>A Frame sampling library</li>
-              <li>Fine tuning an FIM model</li>
-              <li>Multimodal embeddings</li>
+              {% for item in current_work %}
+              <li>{{ item }}</li>
+              {% endfor %}
             </ul>
           </div>
+          {% endif %}
 
           <!-- WRITING -->
+          {% if writing %}
+          <div id="writing" class="plain-index work-block">
+        {% for item in writing %}
+        <div class="blog-row">
+            {% if item.url is defined and item.url %}
+            <p class="blog-title"><a href="{{ item.url }}"{% if item.url.startswith("http") %} target="_blank" rel="noopener"{% endif %}>{{ item.title }}</a></p>
+            {% else %}
+            <p class="blog-title">{{ item.title }}</p>
+            {% endif %}
+            {% if item.excerpt is defined and item.excerpt %}
+            <p class="blog-excerpt">{{ item.excerpt }}</p>
+            {% endif %}
+          {% if item.date is defined and item.date %}
+          <p class="blog-date">{{ item.date }}</p>
+          {% endif %}
+        </div>
+        {% endfor %}
+          </div>
+          {% endif %}
 
           <!-- PROJECTS -->
           <div id="projects" class="plain-index work-block">
-        <p class="proj-row">
+        {% for project in projects %}
+        <p class="proj-row{% if project.stub is defined and project.stub %} is-stub{% endif %}">
           <span class="proj-name-wrap">
             <span class="proj-name">
-              <a href="https://github.com/ctx-0/lazyllama" target="_blank" rel="noopener">lazyllama</a>
+              {% if project.url is defined and project.url %}
+              <a href="{{ project.url }}"{% if project.url.startswith("http") %} target="_blank" rel="noopener"{% endif %}>{{ project.name }}</a>
+              {% else %}
+              {{ project.name }}
+              {% endif %}
             </span>
-          </span><span class="proj-desc">a cli tool to manage local models</span>        </p>
-        <p class="proj-row">
-          <span class="proj-name-wrap">
-            <span class="proj-name">
-              <a href="https://ctx-0.github.io/pixel-shuffle/" target="_blank" rel="noopener">3D visualization of pixel shuffle for token compression in VLMs</a>
-            </span>
-          </span>        </p>
-        <p class="proj-row">
-          <span class="proj-name-wrap">
-            <span class="proj-name">
-              <a href="https://github.com/ctx-0/localimgsearch" target="_blank" rel="noopener">localimgsearch</a>
-            </span>
-          </span><span class="proj-desc">CLIP/SigLIP embeddings + HNSW vector search + Nemotron Rerank VL 1B based image search engine</span>        </p>
-        <p class="proj-row">
-          <span class="proj-name-wrap">
-            <span class="proj-name">
-              <a href="https://ctx-0.github.io/gyroscope/" target="_blank" rel="noopener">ボッチ・ザ・ジャイロスコープ！</a>
-            </span>
-          </span>        </p>
+          </span>{% if project.stub is defined and project.stub %}<span class="stub-label">stub</span>{% endif %}{% if project.description is defined and project.description %}<span class="proj-desc">{{ project.description }}</span>{% endif %}
+        </p>
+        {% endfor %}
           </div>
         </section>
       </section>
@@ -1008,43 +1021,40 @@
         <p class="sec-eyebrow">read recently</p>
         <p class="column-subtitle">some recent good reads</p>
 
+        {% set reading = namespace(count=0) %}
+        {% if reading_groups %}
         <div class="time-chunk">
-          <a class="read-row" href="https://lilianweng.github.io/posts/2026-06-24-scaling-laws/" target="_blank" rel="noopener">
-            <span class="read-title">Scaling Laws, Carefully | Lil'Log</span>
+        {% for group in reading_groups %}
+          {% for entry in group.entries %}
+          <a class="read-row{% if reading.count >= 7 %} mobile-reading-extra{% endif %}" href="{{ entry.url }}"{% if entry.url.startswith("http") %} target="_blank" rel="noopener"{% endif %}>
+            <span class="read-title">{{ entry.title }}</span>
           </a>
-          <a class="read-row" href="https://x.com/polynoamial/status/2064210146558136827" target="_blank" rel="noopener">
-            <span class="read-title">Implications of Large-Scale Test-Time Compute | Noam Brown</span>
-          </a>
-          <a class="read-row" href="https://gwern.net/on-really-trying" target="_blank" rel="noopener">
-            <span class="read-title">On Really Trying · Gwern.net</span>
-          </a>
-          <a class="read-row" href="https://www.lesswrong.com/posts/eFD3rozNCZKMe4rTs/mats-9-retrospective-and-advice" target="_blank" rel="noopener">
-            <span class="read-title">MATS 9 Retrospective & Advice</span>
-          </a>
-          <a class="read-row" href="https://ysymyth.github.io/The-Second-Half/" target="_blank" rel="noopener">
-            <span class="read-title">The Second Half – Shunyu Yao – 姚顺雨</span>
-          </a>
-          <a class="read-row" href="https://crisostomi.github.io/blog/2025/model_merging/" target="_blank" rel="noopener">
-            <span class="read-title">Model Merging — a biased overview | Donato Crisostomi</span>
-          </a>
-          <a class="read-row" href="https://vintagedata.org/blog/posts/what-is-mid-training" target="_blank" rel="noopener">
-            <span class="read-title">What's the deal with mid-training? | Vintage Data</span>
-          </a>
-          <a class="read-row mobile-reading-extra" href="https://outsidetext.substack.com/p/how-does-a-blind-model-see-the-earth" target="_blank" rel="noopener">
-            <span class="read-title">How Does A Blind Model See The Earth? - by henry</span>
-          </a>
+          {% set reading.count = reading.count + 1 %}
+          {% endfor %}
+        {% endfor %}
         </div>
         <button class="reading-toggle" type="button" aria-expanded="false">show full reading list</button>
+        {% else %}
+        <p class="read-empty">Nothing here yet.</p>
+        {% endif %}
         </section>
 
         <!-- QUOTES -->
         <section id="quotes" class="reveal">
+          {% if quotes %}
           <div class="quote-list">
+            {% for quote in quotes %}
             <p class="quote-item">
-              He who desires but acts not, breeds pestilence.
-              <span class="quote-source">Proverbs of Hell, William Blake</span>
+              {{ quote.text }}
+              {% if quote.source is defined and quote.source %}
+              <span class="quote-source">{{ quote.source }}</span>
+              {% endif %}
             </p>
+            {% endfor %}
           </div>
+          {% else %}
+          <p class="quote-empty">No quotes yet.</p>
+          {% endif %}
         </section>
       </section>
     </main>
@@ -1053,7 +1063,7 @@
       <canvas id="footer-ribbons" aria-hidden="true"></canvas>
       <div class="footer-body">
         <p class="footer-kicker">end of current context</p>
-        <p class="footer-meta">re:ctx / notes and signals</p>
+        <p class="footer-meta">{{ site.name }} / notes and signals</p>
       </div>
     </footer>
 

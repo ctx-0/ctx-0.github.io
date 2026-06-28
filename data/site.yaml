@@ -1,0 +1,11 @@
+name: re:ctx
+bio: >-
+  Building tools and running gpu poor experiments. Learning about LLM pre-training and post-training. Interested in alternative architectures.
+links:
+  - label: writing
+    url: "#writing"
+  - label: github
+    url: "https://github.com/ctx-0"
+  - label: huggingface
+    url: "https://huggingface.co/rectx"
+questions_intro: Some questions speculating frontier
