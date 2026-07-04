@@ -371,7 +371,7 @@ main {
 /* ── HERO ── */
 .hero {
   position: relative;
-  max-width: 300px;
+  max-width: 360px;
   min-height: auto;
   margin: 0;
   display: flex;
@@ -396,6 +396,9 @@ main {
   mask-image: radial-gradient(circle, black 5%, transparent 68%);
   animation: dither-drift 18s ease-in-out infinite alternate;
 }
+[data-hero-dither="off"] .hero::before {
+  display: none;
+}
 @keyframes dither-drift {
   to {
     background-position: 18px 11px, 0 0;
@@ -404,26 +407,31 @@ main {
 }
 
 .hero-name {
-  font-family: var(--serif);
-  font-size: 19px;
-  font-weight: 400;
+  font-family: var(--quote-font);
+  font-size: 34px;
+  font-weight: 300;
   color: var(--ink);
   margin-bottom: 14px;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
+  line-height: 0.98;
 }
 
 .hero-bio {
-  font-size: 14px;
-  line-height: 1.8;
+  font-family: var(--sans);
+  font-size: 14.5px;
+  line-height: 1.78;
   color: var(--ink2);
   max-width: 480px;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
+}
+.hero-highlight {
+  display: inline;
 }
 
 .hero-contact {
   display: flex;
   flex-wrap: wrap;
-  gap: 0 20px;
+  gap: 0 18px;
   font-size: 12px;
   color: var(--ink2);
 }
@@ -769,12 +777,20 @@ footer {
     min-height: auto;
     display: block;
     margin-top: 34px;
+    max-width: 420px;
   }
   .hero::before {
     width: calc(100vw + 48px);
     max-width: 520px;
     left: -48px;
     animation: none;
+  }
+  .hero-name {
+    font-size: 32px;
+  }
+  .hero-bio {
+    font-size: 14.5px;
+    line-height: 1.76;
   }
   .top-section,
   .context-section {

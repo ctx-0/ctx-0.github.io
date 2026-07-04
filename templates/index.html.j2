@@ -95,6 +95,10 @@
             <span>Background animation</span>
             <input class="background-toggle" type="checkbox" checked />
           </label>
+          <label class="theme-toggle">
+            <span>Hero dither field</span>
+            <input class="hero-dither-toggle" type="checkbox" checked />
+          </label>
         </div>
       </div>
     </dialog>
@@ -105,8 +109,10 @@
         <!-- HERO -->
         <div class="hero">
           <p class="hero-name rise r1 diffuse-text" data-diffuse data-diffuse-delay="120">{{ site.name }}</p>
-          <p class="hero-bio rise r2 diffuse-text" data-diffuse data-diffuse-delay="360">
-            {{ site.bio }}
+          <p class="hero-bio rise r2">
+            {{ site.bio_intro }}
+            <span class="hero-highlight diffuse-text" data-diffuse data-diffuse-delay="360">{{ site.bio_highlight }}</span>.
+            {{ site.bio_rest }}
           </p>
           <div class="hero-contact rise r3">
             {% if site.email is defined and site.email %}
@@ -272,9 +278,11 @@
       const themeDialog = document.querySelector(".theme-dialog");
       const themeOptions = [...document.querySelectorAll(".theme-option")];
       const backgroundToggle = document.querySelector(".background-toggle");
+      const heroDitherToggle = document.querySelector(".hero-dither-toggle");
       let ribbonColors;
       var topographicState;
       let topographicEnabled = true;
+      let heroDitherEnabled = true;
       const topographicPointer = { x: 0.5, y: 0.5, active: 0 };
 
       function hexToRgb(hex) {
@@ -313,10 +321,21 @@
         try { localStorage.setItem("homepage-theme", name); } catch {}
       }
 
+      function applyHeroDither(enabled, options = {}) {
+        heroDitherEnabled = enabled;
+        document.documentElement.dataset.heroDither = enabled ? "on" : "off";
+        if (heroDitherToggle) heroDitherToggle.checked = enabled;
+        if (options.persist !== false) {
+          try { localStorage.setItem("homepage-hero-dither", enabled ? "on" : "off"); } catch {}
+        }
+      }
+
       let savedTheme = "gold-paper";
       try { savedTheme = localStorage.getItem("homepage-theme") || savedTheme; } catch {}
       try { topographicEnabled = localStorage.getItem("homepage-background-animation") !== "off"; } catch {}
+      try { heroDitherEnabled = localStorage.getItem("homepage-hero-dither") !== "off"; } catch {}
       if (backgroundToggle) backgroundToggle.checked = topographicEnabled;
+      applyHeroDither(heroDitherEnabled, { persist: false });
       applyTheme(savedTheme);
       document.querySelector(".theme-open").addEventListener("click", () => themeDialog.showModal());
       document.querySelector(".theme-close").addEventListener("click", () => themeDialog.close());
@@ -331,6 +350,11 @@
           }
         });
       });
+      if (heroDitherToggle) {
+        heroDitherToggle.addEventListener("change", () => {
+          applyHeroDither(heroDitherToggle.checked);
+        });
+      }
 
       // ── scroll reveal ──
       const ro = new IntersectionObserver(
