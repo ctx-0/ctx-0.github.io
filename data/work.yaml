@@ -1,0 +1,28 @@
+title: ""
+description: "working on a lot of stuff rn will update this in some time"
+items:
+  - title: Notes on Temporal Modelling
+    kind: writing
+    draft: true
+  - title: lazyllama
+    kind: project
+    description: a cli tool to manage local models
+    url: "https://github.com/ctx-0/lazyllama"
+  - title: localimgstudio
+    kind: project
+    description: SAM3 based creative image editing tool
+  # - title: video sampling library
+  #   kind: project
+  # - title: multimodal embeddings search engine
+  #   kind: project
+  #   draft: true
+  - title: 3D visualization of pixel shuffle for token compression in VLMs
+    kind: project
+    url: "https://ctx-0.github.io/pixel-shuffle/"
+  - title: localimgsearch
+    kind: project
+    description: CLIP/SigLIP embeddings + HNSW vector search + Nemotron Rerank VL 1B based image search engine
+    url: "https://github.com/ctx-0/localimgsearch"
+  - title: "ボッチ・ザ・ジャイロスコープ！"
+    kind: project
+    url: "https://ctx-0.github.io/gyroscope/"

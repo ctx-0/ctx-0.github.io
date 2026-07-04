@@ -344,15 +344,15 @@ main {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
   gap: 50px;
-  min-height: 50vh;
-  align-items: center;
+  /* min-height: 50vh; */
+  align-items: start;
+  margin: 72px 0;
 }
 
 .work-content {
   min-width: 0;
   max-width: 500px;
   justify-self: center;
-  padding-top: 56px;
 }
 
 .context-section {
@@ -407,7 +407,7 @@ main {
 
 .hero-name {
   font-family: var(--quote-font);
-  font-size: 34px;
+  font-size: 24px;
   font-weight: 300;
   color: var(--ink);
   margin-bottom: 14px;
@@ -533,7 +533,7 @@ section {
   font: italic 14px/1.7 var(--serif);
 }
 
-/* ── PROJECTS ── */
+/* ── WORK ── */
 #projects {
   margin-bottom: 0;
 }
@@ -543,50 +543,62 @@ section {
 #projects .sec-eyebrow {
   margin-bottom: 13px;
 }
+.work-intro {
+  margin-bottom: 18px;
+}
+.work-intro .sec-eyebrow {
+  margin-bottom: 13px;
+}
+.work-intro .column-subtitle {
+  margin: 0;
+}
 .plain-index {
   display: flex;
   flex-direction: column;
   gap: 7px;
 }
-.proj-row {
+.work-row {
   display: block;
   padding: 0;
   font-size: 14px;
   line-height: 1.55;
   color: var(--ink2);
 }
-.proj-name-wrap {
+.work-name-wrap {
   display: inline;
   margin-top: 0;
 }
-.proj-name {
+.work-name {
   font-family: var(--sans);
   font-size: inherit;
   font-style: normal;
   font-weight: 500;
-  color: var(--hue);
+  color: var(--ink3);
   transition: color 0.15s;
 }
-.proj-row:hover .proj-name {
+.work-name a {
+  color: var(--hue);
+}
+.work-row:hover .work-name a {
   color: var(--gold);
 }
-.proj-row.is-stub .proj-name,
-.proj-row.is-stub:hover .proj-name {
+.work-row.is-draft .work-name,
+.work-row.is-draft:hover .work-name {
   color: var(--ink3);
   font-weight: 400;
 }
-.proj-desc {
+.work-desc {
   display: inline;
   font-family: var(--sans);
   font-size: inherit;
   color: var(--ink3);
   line-height: inherit;
 }
-.proj-desc::before {
+.work-desc::before {
   content: " - ";
   color: var(--ink3);
 }
-.stub-label {
+.status-label {
   display: inline-block;
   margin-left: 0.42em;
   font-size: 0.72em;
@@ -730,6 +742,7 @@ footer {
     max-width: 620px;
     margin-right: auto;
     margin-left: auto;
+    margin: 0;
   }
   .context-section {
     margin-top: 0;
@@ -737,9 +750,6 @@ footer {
   #reading,
   #quotes {
     grid-column: auto;
-  }
-  .work-content {
-    padding-top: 0;
   }
 }
 
@@ -799,7 +809,7 @@ footer {
     margin-bottom: 48px;
   }
   footer {
-    margin-top: 96px;
+    margin-top: 36px;
   }
   .footer-body {
     grid-template-columns: 1fr;

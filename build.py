@@ -27,12 +27,14 @@ def build(today: date) -> None:
     )
     template = environment.get_template("index.html.j2")
     reading_data = load_yaml("reading.yaml")
+    work_data = load_yaml("work.yaml") or {}
     html = template.render(
         site=load_yaml("site.yaml"),
+        reading=reading_data,
         reading_entries=reading_data["entries"],
-        projects=load_yaml("projects.yaml"),
         quotes=load_yaml("quotes.yaml") or [],
-        writing=load_yaml("writing.yaml"),
+        work=work_data,
+        work_items=work_data.get("items", []),
     )
     (ROOT / "index.html").write_text(html, encoding="utf-8")
     print(f"Built index.html using {today.isoformat()}")

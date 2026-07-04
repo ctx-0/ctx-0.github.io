@@ -123,41 +123,26 @@
         </div>
 
         <section id="work" class="work-content reveal">
-          <!-- WRITING -->
-          {% if writing %}
-          <div id="writing" class="plain-index work-block">
-        {% for item in writing %}
-        <div class="blog-row">
-            {% if item.url is defined and item.url %}
-            <p class="blog-title"><a href="{{ item.url }}"{% if item.url.startswith("http") %} target="_blank" rel="noopener"{% endif %}>{{ item.title }}</a></p>
-            {% else %}
-            <p class="blog-title">{{ item.title }}</p>
+          <div id="writing" class="work-intro">
+            <p class="sec-eyebrow">{{ work.title }}</p>
+            {% if work.description is defined and work.description %}
+            <p class="column-subtitle">{{ work.description }}</p>
             {% endif %}
-            {% if item.excerpt is defined and item.excerpt %}
-            <p class="blog-excerpt">{{ item.excerpt }}</p>
-            {% endif %}
-          {% if item.date is defined and item.date %}
-          <p class="blog-date">{{ item.date }}</p>
-          {% endif %}
-        </div>
-        {% endfor %}
           </div>
-          {% endif %}
 
-          <!-- PROJECTS -->
+          <!-- WORK -->
           <div id="projects" class="plain-index work-block">
-            <p class="sec-eyebrow">built recently</p>
-        {% for project in projects %}
-        <p class="proj-row{% if project.stub is defined and project.stub %} is-stub{% endif %}">
-          <span class="proj-name-wrap">
-            <span class="proj-name">
-              {% if project.url is defined and project.url %}
-              <a href="{{ project.url }}"{% if project.url.startswith("http") %} target="_blank" rel="noopener"{% endif %}>{{ project.name }}</a>
+        {% for item in work_items %}
+        <p class="work-row{% if item.draft is defined and item.draft %} is-draft{% endif %}">
+          <span class="work-name-wrap">
+            <span class="work-name">
+              {% if item.url is defined and item.url %}
+              <a href="{{ item.url }}"{% if item.url.startswith("http") %} target="_blank" rel="noopener"{% endif %}>{{ item.title }}</a>
               {% else %}
-              {{ project.name }}
+              {{ item.title }}
               {% endif %}
             </span>
-          </span>{% if project.stub is defined and project.stub %}<span class="stub-label">stub</span>{% endif %}{% if project.description is defined and project.description %}<span class="proj-desc">{{ project.description }}</span>{% endif %}
+          </span>{% if item.draft is defined and item.draft %}<span class="status-label">draft</span>{% endif %}{% if item.description is defined and item.description %}<span class="work-desc">{{ item.description }}</span>{% endif %}
         </p>
         {% endfor %}
           </div>
@@ -168,17 +153,19 @@
 
         <!-- READING -->
         <section id="reading" class="reveal">
-        <p class="sec-eyebrow">read recently</p>
-        <p class="column-subtitle">some recent good reads</p>
+        <p class="sec-eyebrow">{{ reading.title }}</p>
+        {% if reading.description is defined and reading.description %}
+        <p class="column-subtitle">{{ reading.description }}</p>
+        {% endif %}
 
-        {% set reading = namespace(count=0) %}
+        {% set reading_state = namespace(count=0) %}
         {% if reading_entries %}
         <div class="time-chunk">
           {% for entry in reading_entries %}
-          <a class="read-row{% if reading.count >= 7 %} mobile-reading-extra{% endif %}" href="{{ entry.url }}"{% if entry.url.startswith("http") %} target="_blank" rel="noopener"{% endif %}>
+          <a class="read-row{% if reading_state.count >= 7 %} mobile-reading-extra{% endif %}" href="{{ entry.url }}"{% if entry.url.startswith("http") %} target="_blank" rel="noopener"{% endif %}>
             <span class="read-title">{{ entry.title }}</span>
           </a>
-          {% set reading.count = reading.count + 1 %}
+          {% set reading_state.count = reading_state.count + 1 %}
         {% endfor %}
         </div>
         <button class="reading-toggle" type="button" aria-expanded="false">show full reading list</button>
