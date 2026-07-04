@@ -54,11 +54,7 @@ body::before {
       color-mix(in srgb, var(--white) 38%, transparent),
       color-mix(in srgb, var(--white) 54%, transparent)
     ),
-    radial-gradient(
-      circle at 72% 48%,
-      var(--wash-soft),
-      transparent 28rem
-    );
+    radial-gradient(circle at 72% 48%, var(--wash-soft), transparent 28rem);
   translate: 0 var(--background-shift, 0px);
   will-change: translate;
 }
@@ -354,7 +350,7 @@ main {
 
 .work-content {
   min-width: 0;
-  max-width: 440px;
+  max-width: 500px;
   justify-self: center;
   padding-top: 56px;
 }
@@ -366,7 +362,6 @@ main {
   margin-top: 0;
   align-items: start;
 }
-
 
 /* ── HERO ── */
 .hero {
@@ -392,7 +387,9 @@ main {
   background:
     radial-gradient(circle, var(--dither-dot) 0 0.8px, transparent 1px),
     radial-gradient(circle at 48% 46%, var(--dither-field), transparent 63%);
-  background-size: 7px 7px, 100% 100%;
+  background-size:
+    7px 7px,
+    100% 100%;
   mask-image: radial-gradient(circle, black 5%, transparent 68%);
   animation: dither-drift 18s ease-in-out infinite alternate;
 }
@@ -401,7 +398,9 @@ main {
 }
 @keyframes dither-drift {
   to {
-    background-position: 18px 11px, 0 0;
+    background-position:
+      18px 11px,
+      0 0;
     transform: rotate(3deg) scale(1.04);
   }
 }

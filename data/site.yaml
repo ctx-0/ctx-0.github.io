@@ -1,7 +1,5 @@
 name: re:ctx
-bio_intro: Building tools and running
-bio_highlight: gpu poor experiments
-bio_rest: Learning about LLM pre-training and post-training. Interested in alternative architectures.
+bio: Building tools and running gpu poor experiments. Learning about LLM pre-training and post-training. Interested in alternative architectures.
 links:
   - label: writing
     url: "#writing"
