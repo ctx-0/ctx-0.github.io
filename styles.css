@@ -424,10 +424,6 @@ main {
   max-width: 480px;
   margin-bottom: 20px;
 }
-.hero-highlight {
-  display: inline;
-}
-
 .hero-contact {
   display: flex;
   flex-wrap: wrap;
