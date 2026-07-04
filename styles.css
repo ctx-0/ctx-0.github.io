@@ -354,7 +354,7 @@ main {
 
 .work-content {
   min-width: 0;
-  max-width: 500px;
+  max-width: 440px;
   justify-self: center;
   padding-top: 56px;
 }
@@ -540,27 +540,6 @@ section {
 }
 .work-block + .work-block {
   margin-top: 20px;
-}
-.work-label {
-  margin-bottom: 7px;
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0;
-  color: var(--ink3);
-}
-.current-list {
-  display: block;
-  list-style: none;
-}
-.current-list li {
-  display: inline;
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--ink2);
-}
-.current-list li + li::before {
-  content: " · ";
-  color: var(--ink3);
 }
 .plain-index {
   display: flex;

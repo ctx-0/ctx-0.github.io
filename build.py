@@ -31,7 +31,6 @@ def build(today: date) -> None:
         site=load_yaml("site.yaml"),
         reading_entries=reading_data["entries"],
         projects=load_yaml("projects.yaml"),
-        current_work=load_yaml("current_work.yaml"),
         quotes=load_yaml("quotes.yaml") or [],
         writing=load_yaml("writing.yaml"),
     )

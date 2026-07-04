@@ -123,17 +123,6 @@
         </div>
 
         <section id="work" class="work-content reveal">
-          {% if current_work %}
-          <div class="work-block">
-            <p class="work-label">currently working on</p>
-            <ul class="current-list">
-              {% for item in current_work %}
-              <li>{{ item }}</li>
-              {% endfor %}
-            </ul>
-          </div>
-          {% endif %}
-
           <!-- WRITING -->
           {% if writing %}
           <div id="writing" class="plain-index work-block">
