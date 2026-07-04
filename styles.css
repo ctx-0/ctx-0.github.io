@@ -541,6 +541,9 @@ section {
 .work-block + .work-block {
   margin-top: 20px;
 }
+#projects .sec-eyebrow {
+  margin-bottom: 13px;
+}
 .plain-index {
   display: flex;
   flex-direction: column;
